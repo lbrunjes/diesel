@@ -1,0 +1,8 @@
+/*
+diesel.js
+A simple js game engine 
+lee.brunjes@gmail.com
+
+
+*/
+
