@@ -8,6 +8,7 @@ events/windowblur.js
 events/windowkey.js
 mixin/index.js
 proto/base.js
+proto/game.js
 proto/screen.js
 proto/unit.js
 sprites/index.js

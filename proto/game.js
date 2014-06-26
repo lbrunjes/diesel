@@ -1,0 +1,3 @@
+diesel.proto.game = {
+	
+};
