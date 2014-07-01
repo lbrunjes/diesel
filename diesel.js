@@ -1,4 +1,4 @@
-// Diesel built at Wed 25 Jun 2014 08:46:43 PM EDT
+// Diesel built at Tue 01 Jul 2014 10:50:52 AM EDT
 /*
 diesel.js
 A simple js game engine 
@@ -44,6 +44,7 @@ var diesel = function(){
 	this.fontSize = 16;
 	this.game = false;
 
+	this.nextFrame=false;
 
 	//engine functions
 	this.init = function(){
@@ -58,13 +59,14 @@ var diesel = function(){
 
 	//start should not be called until the dom is loaded.
 	this.start = function(game){
-
-		
-
 		console.log("Diesel, starting");
+
 		diesel.timeStarted = new Date();
 		diesel.lastFrameEnd = new Date();
 		diesel.lastFrameStart = new Date();
+
+		diesel.raiseEvent("startup");
+		diesel.loop();
 
 		//load vars into the diesel object from core plugins
 
@@ -135,6 +137,33 @@ var diesel = function(){
 			
 		}
 
+
+
+
+	};
+
+	this.loop =function(){
+		var frameStart = new Date();
+		var timePassed = (frameStart - diesel.lastFrameStart)/1000;
+		
+		//spit out events
+		diesel.raiseEvent("draw",timePassed);
+		diesel.raiseEvent("update",timePassed);
+		
+		//Adjust internal counters and timers
+		diesel.frameCount++;
+		diesel.lastFrameStart = frameStart;
+		diesel.lastFrameEnd = new Date();
+		diesel.lastFrameTime = diesel.lastFrameEnd -frameStart;
+		
+		//allow the loop to continue
+		if(diesel.shouldLoop){
+			diesel.nextFrame =setTimeout(diesel.loop, 
+				Math.abs(diesel.util.timeBetweenFrames()  - diesel.lastFrameTime)+1);
+		}
+		else{
+			diesel.nextFrame = false;
+		}
 
 	};
 
@@ -505,9 +534,18 @@ diesel.proto.objectBase =  {
 
 
 
-};
+};/*
+This is a prototype for your game object 
+that provides a few basic things like  currently pressed keys
+drwing hte current screen,
+
+
+
+*/
 diesel.proto.game = {
 	container:"container",
+	version:"0.0.1",
+	ticks:0,
 	font:"monospace",
 	fontSize:16,
 	width:640,
@@ -516,8 +554,102 @@ diesel.proto.game = {
 		screen:"loading",
 		dataDirectory:"data/"
 	},
-	events:{},
-	screens:{},
+		keys:{
+		"left":37, 
+		"right":39,
+		"up":38,
+	},
+	keysDown:{
+		"left":false, 
+		"right":false,
+		"up":false,
+		"down":false	
+	},
+	events:{
+		"draw":function(event){
+			game.screens[game.settings.screen].draw(event.args[0]);
+		},
+		"update":function(event){
+			game.ticks++;
+			game.screens[game.settings.screen].update(event.args[0]);
+		},
+		"click":function(evt){
+			if(game.screens[game.settings.screen] &&
+					game.screens[game.settings.screen].click){
+
+				game.screens[game.settings.screen].click(evt);
+			}
+			else{
+				game.context.vfx.fillText("No Scene: "+game.settings.screen, diesel.mouseX, diesel.mouseY);
+				evt.preventDefault();
+			}
+		},
+		"keydown": function(event){
+			for(keyname in game.keys){
+				if(event.keyCode == game.keys[keyname]){
+					game.keysDown[keyname] =true;
+					event.preventDefault();
+				}
+			}
+			if(game.screens[game.settings.screen].keydown){
+				game.screens[game.settings.screen].keydown(event);
+			}
+				
+		},
+		"keyup":function(event){
+			for(keyname in game.keys){
+				if(event.keyCode == game.keys[keyname]){
+					game.keysDown[keyname] =false;
+					event.preventDefault();
+				}
+			}	
+			if(game.screens[game.settings.screen].keyup){
+				game.screens[game.settings.screen].keyup(event);
+			}
+		},
+		"screenChange":function(event){
+			var from = event.args[0], 
+				to = event.args[1], 
+				transition = event.args[2]|| false;
+			console.log(from, to, transition);
+
+			game.screens[from].close();
+			if(transition){
+				game.screens[transition].reset(from, to);
+				game.screens[transition].open();
+				game.settings.screen = transition;
+			}
+			else{
+				game.screens[to].reset();
+				game.screens[to].open();
+				game.settings.screen = to;
+			}
+		
+		},
+
+	},
+	screens:{
+		"loading":Object.create(diesel.proto.screen,{
+			"draw":function(){
+				this.clearAllContexts();
+
+				this.fillStyle = "#ffffff";
+				var txt = "";
+				this.fillTextCentered("Loading", diesel.game.width/2, diesel.game.height/2)
+				for(var i =0; i < diesel.loading, i++){
+					txt +=".";
+				
+				}
+				this.fillTextCentered(txt, diesel.game.width/2, diesel.game.height/2 +diesel.fontSize);
+			},
+			"update":function(ticks){
+			if (diesel.loading <= 0){
+				diesel.events.raiseEvent("screenChange","loading","menu");
+			}
+
+		}
+		})
+	},
 	context:{},
 	objects:{}
 };
@@ -584,7 +716,7 @@ diesel.proto.screen = {
 		ctx.fillText(text, x -len/2,y);
 	},
 	
-
+	//remvoes data from all canvases
 	"clearAllContexts":function(){
 		for(canvas in diesel.game.context){
 			diesel.game.context[canvas].clearRect(0,0,
@@ -592,6 +724,7 @@ diesel.proto.screen = {
 		}
 	},
 	
+	//highlights the zones in the screen
 	"drawClickZones":function(ctx){
 		var fill = ctx.fillStyle;
 	
@@ -607,8 +740,34 @@ diesel.proto.screen = {
 			}
 			ctx.fillStyle =fill;
 		}
+	},
+
+	//draw left aligned text in the box
+	//overflowing text is removed
+	"drawParagraph":function(ctx, text, x, y, w, h){
+		var lines = [], testingLine, last = 0;
+
+		for(var i=0; i < text.length;i++){
+			testingLine = text.substring(last, i);
+			if(ctx.measureText(testingLine) >= w){
+				lines.add(text.substring(last, i-1));
+				last = i-1;
+			}
+		}
+
+		var Y=0;
+
+
+		for(var i = 0;i <lines.length && Y < h ;i++){
+			ctx.fillText(lines[i],x,Y,w);
+			Y+= diesel.fontSize;
+		}
+
+
 	}
+
 };
+
 
 ///
 //	diesel.sprites
