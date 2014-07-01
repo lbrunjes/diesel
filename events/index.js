@@ -1,3 +1,4 @@
+
 ///
 // Diesel.events
 ///
@@ -28,7 +29,8 @@ diesel.events.raiseEvent=function(eventName){
 	}
 
 
-}
+};
+
 diesel.events.bindEvents = function(eventObject){
 
 	//loop throught he object we got and 
@@ -53,4 +55,4 @@ diesel.events.bindEvents = function(eventObject){
 
 	}
 
-}
+};

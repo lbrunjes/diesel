@@ -2,16 +2,7 @@
 // diesel.util
 ///
 
-diesel.util.setCompatability = function(){
-	if(!window.console){
-		window.console = {"log":function(args){}};
-	}
-	if(!window.localStorage){
-		console.log("Diesel, No Local Storage. Faking...");
-		window.localStorage = {};
-	}
 
-};
 
 diesel.util.timeBetweenFrames= function(){
 	if(diesel.fpsLimit > 0 && diesel.fpsLimit <200){

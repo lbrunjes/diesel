@@ -1,6 +1,6 @@
 
 //caches last few keys to allow for keypress combos.
-diesel.events.windowkeyup:function(evt){
+diesel.events.windowkeyup=function(evt){
 	diesel.lastKeys.push(evt.keyCode);
 
 	if(!diesel.lastKeys){

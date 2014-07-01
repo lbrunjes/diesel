@@ -1,3 +1,4 @@
+
 ///
 //	diesel.proto
 ///
@@ -93,7 +94,7 @@ diesel.proto.objectBase =  {
 	manhattanDistance:function(x,y,z){
 		return Math.abs(this.x - x) +
 			Math.abs(this.y - y,2)+
-			Math.abs(this.z - z,
+			Math.abs(this.z - z);
 
 	},
 

@@ -1,5 +1,5 @@
 
-game.proto.screen = {
+diesel.proto.screen = {
 	//used to store data for use in the click function {x:i,y:i,w:i,h:i,click:fn}
 	"clickZones":[],
 	
@@ -50,7 +50,7 @@ game.proto.screen = {
 	//called at reset
 	"reset":function(){
 
-	}
+	},
 	
 	
 	
@@ -61,7 +61,7 @@ game.proto.screen = {
 		ctx.fillText(text, x -len/2,y);
 	},
 	
-
+	//remvoes data from all canvases
 	"clearAllContexts":function(){
 		for(canvas in diesel.game.context){
 			diesel.game.context[canvas].clearRect(0,0,
@@ -69,6 +69,7 @@ game.proto.screen = {
 		}
 	},
 	
+	//highlights the zones in the screen
 	"drawClickZones":function(ctx){
 		var fill = ctx.fillStyle;
 	
@@ -84,5 +85,31 @@ game.proto.screen = {
 			}
 			ctx.fillStyle =fill;
 		}
-	};
+	},
+
+	//draw left aligned text in the box
+	//overflowing text is removed
+	"drawParagraph":function(ctx, text, x, y, w, h){
+		var lines = [], testingLine, last = 0;
+
+		for(var i=0; i < text.length;i++){
+			testingLine = text.substring(last, i);
+			if(ctx.measureText(testingLine) >= w){
+				lines.add(text.substring(last, i-1));
+				last = i-1;
+			}
+		}
+
+		var Y=0;
+
+
+		for(var i = 0;i <lines.length && Y < h ;i++){
+			ctx.fillText(lines[i],x,Y,w);
+			Y+= diesel.fontSize;
+		}
+
+
+	}
+
 };
+

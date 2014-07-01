@@ -1,3 +1,4 @@
+
 ///
 // diesel.mixin
 ///
@@ -19,6 +20,4 @@ diesel.mixin.addMixin = function(targetObject, mixin){
 			targetObject[attr] = mixin[attr];
 		}
 	}
-
-
 }

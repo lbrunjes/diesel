@@ -35,11 +35,12 @@ var diesel = function(){
 	this.fontSize = 16;
 	this.game = false;
 
+	this.nextFrame=false;
 
 	//engine functions
 	this.init = function(){
 		//ensure the browser meets our basic requirements
-		diesel.util.setCompatability();
+		this.setCompatability();
 
 		
 
@@ -49,11 +50,14 @@ var diesel = function(){
 
 	//start should not be called until the dom is loaded.
 	this.start = function(game){
-
 		console.log("Diesel, starting");
+
 		diesel.timeStarted = new Date();
 		diesel.lastFrameEnd = new Date();
 		diesel.lastFrameStart = new Date();
+
+		diesel.raiseEvent("startup");
+		diesel.loop();
 
 		//load vars into the diesel object from core plugins
 
@@ -125,12 +129,44 @@ var diesel = function(){
 		}
 
 
-		}
 
 
 	};
 
+	this.loop =function(){
+		var frameStart = new Date();
+		var timePassed = (frameStart - diesel.lastFrameStart)/1000;
+		
+		//spit out events
+		diesel.raiseEvent("draw",timePassed);
+		diesel.raiseEvent("update",timePassed);
+		
+		//Adjust internal counters and timers
+		diesel.frameCount++;
+		diesel.lastFrameStart = frameStart;
+		diesel.lastFrameEnd = new Date();
+		diesel.lastFrameTime = diesel.lastFrameEnd -frameStart;
+		
+		//allow the loop to continue
+		if(diesel.shouldLoop){
+			diesel.nextFrame =setTimeout(diesel.loop, 
+				Math.abs(diesel.util.timeBetweenFrames()  - diesel.lastFrameTime)+1);
+		}
+		else{
+			diesel.nextFrame = false;
+		}
 
+	};
+
+	this.setCompatability = function(){
+		if(!window.console){
+			window.console = {"log":function(args){}};
+		}
+		if(!window.localStorage){
+			console.log("Diesel, No Local Storage. Faking...");
+			window.localStorage = {};
+		}
+	};
 
 	this.init();
 };

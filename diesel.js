@@ -1,4 +1,4 @@
-// Diesel built at Wed 25 Jun 2014 07:54:29 PM EDT
+// Diesel built at Wed 25 Jun 2014 08:46:43 PM EDT
 /*
 diesel.js
 A simple js game engine 
@@ -48,7 +48,7 @@ var diesel = function(){
 	//engine functions
 	this.init = function(){
 		//ensure the browser meets our basic requirements
-		diesel.util.setCompatability();
+		this.setCompatability();
 
 		
 
@@ -58,6 +58,8 @@ var diesel = function(){
 
 	//start should not be called until the dom is loaded.
 	this.start = function(game){
+
+		
 
 		console.log("Diesel, starting");
 		diesel.timeStarted = new Date();
@@ -134,12 +136,17 @@ var diesel = function(){
 		}
 
 
-		}
-
-
 	};
 
-
+	this.setCompatability = function(){
+		if(!window.console){
+			window.console = {"log":function(args){}};
+		}
+		if(!window.localStorage){
+			console.log("Diesel, No Local Storage. Faking...");
+			window.localStorage = {};
+		}
+	};
 
 	this.init();
 };
@@ -207,7 +214,8 @@ diesel.data.getKeyName = function(keyCode){
 	}
 	// hope this  is a letter key:)
 	return String.fromCharCode(keyCode);
-};///
+};
+///
 // Diesel.events
 ///
 
@@ -237,7 +245,8 @@ diesel.events.raiseEvent=function(eventName){
 	}
 
 
-}
+};
+
 diesel.events.bindEvents = function(eventObject){
 
 	//loop throught he object we got and 
@@ -262,7 +271,8 @@ diesel.events.bindEvents = function(eventObject){
 
 	}
 
-}
+};
+
 //set the engine x vars
 diesel.events.mousemove= function(evt){
 	var rect = diesel.container.getBoundingClientRect();
@@ -273,6 +283,7 @@ diesel.events.mousemove= function(evt){
 	diesel.mouseY = evt.pageY - rect.top - diesel.container.scrollTop +window.pageYOffset;
 	
 };
+
 //save and load events
 
 diesel.events.save = function(name, data){
@@ -309,6 +320,7 @@ diesel.events.listSaves = function(){
 diesel.events.deleteSave = function(name){
 	localStorage.removeItem(name);
 };
+
 diesel.events.windowblur=function(evt){
 	if(diesel.pauseOnBlur){
 		diesel.shouldLoop =false;
@@ -325,7 +337,7 @@ diesel.events.windowfocus=function(evt){
 };
 
 //caches last few keys to allow for keypress combos.
-diesel.events.windowkeyup:function(evt){
+diesel.events.windowkeyup=function(evt){
 	diesel.lastKeys.push(evt.keyCode);
 
 	if(!diesel.lastKeys){
@@ -350,7 +362,8 @@ diesel.events.windowkeyup:function(evt){
 		console.log("YOU DIRTY RAT");
 	
 	}
-};///
+};
+///
 // diesel.mixin
 ///
 
@@ -371,9 +384,9 @@ diesel.mixin.addMixin = function(targetObject, mixin){
 			targetObject[attr] = mixin[attr];
 		}
 	}
+}
 
-
-}///
+///
 //	diesel.proto
 ///
 
@@ -468,7 +481,7 @@ diesel.proto.objectBase =  {
 	manhattanDistance:function(x,y,z){
 		return Math.abs(this.x - x) +
 			Math.abs(this.y - y,2)+
-			Math.abs(this.z - z,
+			Math.abs(this.z - z);
 
 	},
 
@@ -493,7 +506,23 @@ diesel.proto.objectBase =  {
 
 
 };
-game.proto.screen = {
+diesel.proto.game = {
+	container:"container",
+	font:"monospace",
+	fontSize:16,
+	width:640,
+	height:480,
+	settings:{
+		screen:"loading",
+		dataDirectory:"data/"
+	},
+	events:{},
+	screens:{},
+	context:{},
+	objects:{}
+};
+
+diesel.proto.screen = {
 	//used to store data for use in the click function {x:i,y:i,w:i,h:i,click:fn}
 	"clickZones":[],
 	
@@ -544,7 +573,7 @@ game.proto.screen = {
 	//called at reset
 	"reset":function(){
 
-	}
+	},
 	
 	
 	
@@ -578,8 +607,10 @@ game.proto.screen = {
 			}
 			ctx.fillStyle =fill;
 		}
-	};
-};///
+	}
+};
+
+///
 //	diesel.sprites
 ///
 
@@ -640,20 +671,12 @@ diesel.sprites.spriteInstance = function(sprite){
 	this.nextFrame =function(){
 		this.frame = (this.frame + 1) % this.frameCount;
 	};
-};///
+};
+///
 // diesel.util
 ///
 
-diesel.util.setCompatability = function(){
-	if(!window.console){
-		window.console = {"log":function(args){}};
-	}
-	if(!window.localStorage){
-		console.log("Diesel, No Local Storage. Faking...");
-		window.localStorage = {};
-	}
 
-};
 
 diesel.util.timeBetweenFrames= function(){
 	if(diesel.fpsLimit > 0 && diesel.fpsLimit <200){
