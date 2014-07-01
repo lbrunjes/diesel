@@ -33,6 +33,7 @@ var diesel = function(){
 
 	this.font = "monospace";
 	this.fontSize = 16;
+	
 	this.game = false;
 
 	this.nextFrame=false;
