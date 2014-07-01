@@ -100,7 +100,7 @@ diesel.proto.game = {
 				this.fillStyle = "#ffffff";
 				var txt = "";
 				this.fillTextCentered("Loading", diesel.game.width/2, diesel.game.height/2)
-				for(var i =0; i < diesel.loading, i++){
+				for(var i =0; i < diesel.loading; i++){
 					txt +=".";
 				
 				}

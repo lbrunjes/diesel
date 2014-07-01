@@ -1,6 +1,6 @@
 //the base diesel object must be laoded before we can load items
 var diesel = function(){
-	
+	this.version=0.5;
 
 	//setup slots to store components;
 	this.data ={};
