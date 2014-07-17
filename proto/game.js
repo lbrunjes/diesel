@@ -90,6 +90,16 @@ diesel.proto.game = {
 			}
 		
 		},
+		"startup":function(evt){
+
+			if(game.startup){
+				game.startup();
+				console.log("diesel, starting up the game");
+			}
+			else{
+				console.log("no startup found");
+			}
+		}
 
 	},
 	screens:{
