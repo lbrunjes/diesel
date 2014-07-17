@@ -19,7 +19,7 @@ diesel.events.raiseEvent=function(eventName){
 	event.args = [];
 	//loop through arguements and 
 	for(var i = 1; i<arguments.length;i++){
-		event.args.push(arguements[i])
+		event.args.push(arguments[i])
 	}
 	
 	if (document.createEvent) {
@@ -38,7 +38,7 @@ diesel.events.bindEvents = function(eventObject){
 	// events prefixed with window will bind to the window in all cases
 	
 	for(event in eventObject){
-		if(event && typepf(eventObject[event]) == "function"){
+		if(event && typeof(eventObject[event]) == "function"){
 			if(event.indexOf("window") === 0){
 				diesel.container.addEventListener(event, 
 					eventObject[event]);

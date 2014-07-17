@@ -10,9 +10,11 @@ done
 echo "";
 
 echo "//diesel tests built at "$(date +%c) > tests.js
-for test in `ls tests`; do
-	cat 'tests/'$test >> tests.js
+for test in `ls tests/*.js`; do
+	cat $test >> tests.js
 	echo "added test $test"
 done
 
 echo "Finished: "$(date +%c)
+
+cp diesel.js ~/web-local/diesel.js

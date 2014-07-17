@@ -12,7 +12,7 @@ var diesel = function(){
 	this.util = {};
 
 	//engine vars
-	this.container = false;
+	this.container = document.getElementsByTagName("body")[0];
 	this.mouseX;
 	this.mouseY;
 	
@@ -22,6 +22,7 @@ var diesel = function(){
 
 	this.fpsLimit  =100;
 	this.lastFrameTime = 1;
+	this.frameCount =0;
 
 	this.loading = 0;
 
@@ -59,8 +60,7 @@ var diesel = function(){
 
 		diesel.container = document.getElementsByTagName("body")[0];
 		diesel.events.raiseEvent("startup");
-		diesel.loop();
-
+		
 		//load vars into the diesel object from core plugins
 
 		diesel.mixin.addMixin(this, diesel.data);
@@ -99,7 +99,7 @@ var diesel = function(){
 
 
 			//deal with the game container
-			if(game.container){
+			if(game.container && document.getElementById(game.container)){
 				diesel.container = document.getElementById(game.container);
 			}
 			diesel.container.focus();
@@ -128,6 +128,8 @@ var diesel = function(){
 			}
 
 			
+			diesel.loop();
+
 		}
 
 
