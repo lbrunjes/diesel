@@ -12,7 +12,7 @@ var diesel = function(){
 	this.util = {};
 
 	//engine vars
-	this.container = document.getElementsByTagName("body")[0];
+	this.container = false;
 	this.mouseX;
 	this.mouseY;
 	
@@ -57,7 +57,8 @@ var diesel = function(){
 		diesel.lastFrameEnd = new Date();
 		diesel.lastFrameStart = new Date();
 
-		diesel.raiseEvent("startup");
+		diesel.container = document.getElementsByTagName("body")[0];
+		diesel.events.raiseEvent("startup");
 		diesel.loop();
 
 		//load vars into the diesel object from core plugins
