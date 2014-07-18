@@ -76,3 +76,8 @@ diesel.util.createContext= function(canvas){
 	game.context[canvas].font = game.fontSize+"px "+game.font ;
 				
 }
+
+diesel.util.registerKey= function(keyName, keyCode){
+	diesel.game.keys[keyName] = keyCode;
+	diesel.game.keysDown[keyName] = false;
+}

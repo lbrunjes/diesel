@@ -40,19 +40,17 @@ diesel.events.bindEvents = function(eventObject){
 	for(event in eventObject){
 		if(event && typeof(eventObject[event]) == "function"){
 			if(event.indexOf("window") === 0){
-				diesel.container.addEventListener(event, 
-					eventObject[event]);
-
-			}
-			else{
 				//remove the window at the start
 				window.addEventListener(event.substring(6), 
 					eventObject[event]);
+			}
+			else{
+				
+				diesel.container.addEventListener(event, 
+					eventObject[event]);
+
 
 			}
-
 		}
-
 	}
-
 };

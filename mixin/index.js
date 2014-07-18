@@ -9,7 +9,7 @@ diesel.mixin.addMixin = function(targetObject, mixin){
 		"prototype",
 		"overrideExisting",
 	], 
-	shouldOverride = false|mixin.shouldOverride;
+	shouldOverride = mixin.shouldOverride||false;
 
 	//add the mixin vars to the object.
 	for(attr in mixin){

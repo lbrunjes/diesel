@@ -20,7 +20,7 @@ var diesel = function(){
 	this.shouldLoop =true;
 	this.loopFn =false;
 
-	this.fpsLimit  =100;
+	this.fpsLimit  =30;
 	this.lastFrameTime = 1;
 	this.frameCount =0;
 

@@ -21,6 +21,7 @@ diesel.proto.game =  function(){
 		"left":37, 
 		"right":39,
 		"up":38,
+		"down":40
 	};
 	this.keysDown={
 		"left":false, 
@@ -42,12 +43,9 @@ diesel.proto.game =  function(){
 
 				game.screens[game.activeScreen].click(evt);
 			}
-			else{
-				game.context.vfx.fillText("No Scene: "+game.activeScreen, diesel.mouseX, diesel.mouseY);
-				evt.preventDefault();
-			}
+			
 		},
-		"keydown": function(event){
+		"windowkeydown": function(event){
 			for(keyname in game.keys){
 				if(event.keyCode == game.keys[keyname]){
 					game.keysDown[keyname] =true;
@@ -59,7 +57,7 @@ diesel.proto.game =  function(){
 			}
 				
 		},
-		"keyup":function(event){
+		"windowkeyup":function(event){
 			for(keyname in game.keys){
 				if(event.keyCode == game.keys[keyname]){
 					game.keysDown[keyname] =false;
@@ -74,7 +72,7 @@ diesel.proto.game =  function(){
 			var from = event.args[0], 
 				to = event.args[1], 
 				transition = event.args[2]|| false;
-			console.log(from, to, transition);
+			console.log("screen changed",from, to, transition);
 
 			game.screens[from].close();
 			if(transition){
