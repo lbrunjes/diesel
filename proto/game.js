@@ -6,45 +6,44 @@ drwing hte current screen,
 
 
 */
-diesel.proto.game = {
-	container:"container",
-	version:"0.0.1",
-	ticks:0,
-	font:"monospace",
-	fontSize:16,
-	width:640,
-	height:480,
-	settings:{
-		screen:"loading",
-		dataDirectory:"data/"
-	},
-		keys:{
+diesel.proto.game =  function(){
+	this.container="container";
+	this.version="0.0.1";
+	this.ticks=0;
+	this.font="monospace";
+	this.fontSize=16;
+	this.width=640;
+	this.height=480;
+	this.activeScreen="loading";
+	this.dataDirectory="data/";
+	
+	this.keys={
 		"left":37, 
 		"right":39,
 		"up":38,
-	},
-	keysDown:{
+	};
+	this.keysDown={
 		"left":false, 
 		"right":false,
 		"up":false,
 		"down":false	
-	},
-	events:{
+	};
+	this.events={
 		"draw":function(event){
-			game.screens[game.settings.screen].draw(event.args[0]);
+			game.screens[game.activeScreen].draw(event.args[0]);
 		},
 		"update":function(event){
 			game.ticks++;
-			game.screens[game.settings.screen].update(event.args[0]);
+			game.screens[game.activeScreen].update(event.args[0]);
 		},
 		"click":function(evt){
-			if(game.screens[game.settings.screen] &&
-					game.screens[game.settings.screen].click){
+			if(game.screens[game.activeScreen] &&
+					game.screens[game.activeScreen].click){
 
-				game.screens[game.settings.screen].click(evt);
+				game.screens[game.activeScreen].click(evt);
 			}
 			else{
-				game.context.vfx.fillText("No Scene: "+game.settings.screen, diesel.mouseX, diesel.mouseY);
+				game.context.vfx.fillText("No Scene: "+game.activeScreen, diesel.mouseX, diesel.mouseY);
 				evt.preventDefault();
 			}
 		},
@@ -55,8 +54,8 @@ diesel.proto.game = {
 					event.preventDefault();
 				}
 			}
-			if(game.screens[game.settings.screen].keydown){
-				game.screens[game.settings.screen].keydown(event);
+			if(game.screens[game.activeScreen].keydown){
+				game.screens[game.activeScreen].keydown(event);
 			}
 				
 		},
@@ -67,8 +66,8 @@ diesel.proto.game = {
 					event.preventDefault();
 				}
 			}	
-			if(game.screens[game.settings.screen].keyup){
-				game.screens[game.settings.screen].keyup(event);
+			if(game.screens[game.activeScreen].keyup){
+				game.screens[game.activeScreen].keyup(event);
 			}
 		},
 		"screenChange":function(event){
@@ -81,12 +80,12 @@ diesel.proto.game = {
 			if(transition){
 				game.screens[transition].reset(from, to);
 				game.screens[transition].open();
-				game.settings.screen = transition;
+				game.activeScreen = transition;
 			}
 			else{
 				game.screens[to].reset();
 				game.screens[to].open();
-				game.settings.screen = to;
+				game.activeScreen = to;
 			}
 		
 		},
@@ -101,29 +100,8 @@ diesel.proto.game = {
 			}
 		}
 
-	},
-	screens:{
-		"loading":Object.create(diesel.proto.screen,{
-			"draw":function(){
-				this.clearAllContexts();
-
-				this.fillStyle = "#ffffff";
-				var txt = "";
-				this.fillTextCentered("Loading", diesel.game.width/2, diesel.game.height/2)
-				for(var i =0; i < diesel.loading; i++){
-					txt +=".";
-				
-				}
-				this.fillTextCentered(txt, diesel.game.width/2, diesel.game.height/2 +diesel.fontSize);
-			},
-			"update":function(ticks){
-			if (diesel.loading <= 0){
-				diesel.events.raiseEvent("screenChange","loading","menu");
-			}
-
-		}
-		})
-	},
-	context:{},
-	objects:{}
+	};
+	this.screens={};
+	this.context={};
+	this.objects={};
 };

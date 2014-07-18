@@ -1,24 +1,17 @@
 
-diesel.proto.screen = {
+diesel.proto.screen = function(){
 	//used to store data for use in the click function {x:i,y:i,w:i,h:i,click:fn}
-	"clickZones":[],
+	this.clickZones=[];
 	
-	//called when the screen is changed
-	"reset":function(arg){
-		this.clearAllContexts();
-	},
-
 	//called to draw teh screen
-	"draw":function(ticks){
-		var i =1;
-		for(canvas in diesel.game.context){
-			diesel.game.context[canvas].fillStyle= "#ffffff";
-			diesel.game.context[canvas].fillText(canvas, 10, diesel.fontSize *2*i);
-		}
-	},
+	this.draw=function(ticks){
+		
+	};
+
 	//called the update the state of the things in the scene
-	"update":function(ticks){
-	},
+	this.update=function(ticks){
+
+	};
 	
 	/*
 	
@@ -27,7 +20,7 @@ diesel.proto.screen = {
 	*/
 	
 	//called when the object is clicked
-	"click":function(evt){
+	this.click=function(evt){
 		for(i in this.clickZones){
 			if(this.clickZones[i].x < diesel.mouseX 
 				&& this.clickZones[i].x + this.clickZones[i].w > diesel.mouseX 
@@ -37,40 +30,40 @@ diesel.proto.screen = {
 					this.clickZones[i].click();
 				}
 			}
-	},
+	};
 	
 	//called when a screen is created.
-	"open":function(event){
+	this.open=function(event){
 	
-	},
+	};
 	//called when  screen is closed.
-	"close":function(evt){
+	this.close=function(event){
 	
-	},
+	};
 	//called at reset
-	"reset":function(){
+	this.reset = function(event){
 
-	},
+	};
 	
 	
 	
 	
 	//draws the selected text centred horizontally on a point.
-	fillTextCentered:function(ctx, text, x,y){
+	this.fillTextCentered=function(ctx, text, x,y){
 		var len = ctx.measureText(text).width;
 		ctx.fillText(text, x -len/2,y);
-	},
+	};
 	
 	//remvoes data from all canvases
-	"clearAllContexts":function(){
+	this.clearAllContexts=function(){
 		for(canvas in diesel.game.context){
 			diesel.game.context[canvas].clearRect(0,0,
 				diesel.game.width, diesel.game.height);
 		}
-	},
+	};
 	
 	//highlights the zones in the screen
-	"drawClickZones":function(ctx){
+	this.drawClickZones=function(ctx){
 		var fill = ctx.fillStyle;
 	
 		for(i in this.clickZones){
@@ -85,11 +78,11 @@ diesel.proto.screen = {
 			}
 			ctx.fillStyle =fill;
 		}
-	},
+	};
 
 	//draw left aligned text in the box
 	//overflowing text is removed
-	"drawParagraph":function(ctx, text, x, y, w, h){
+	this.drawParagraph=function(ctx, text, x, y, w, h){
 		var lines = [], testingLine, last = 0;
 
 		for(var i=0; i < text.length;i++){
@@ -109,7 +102,7 @@ diesel.proto.screen = {
 		}
 
 
-	}
+	};
 
 };
 

@@ -28,7 +28,7 @@ diesel.util.addLoad = function(file){
 				
 			img.onerror = diesel.preloadError;
 			img.onload = diesel.preloadSuccess;
-			img.src=game.settings.dataDirectory+file.image;
+			img.src=diesel.game.dataDirectory+file.image;
 		}
 	}
 	if(file.sound){
@@ -41,7 +41,7 @@ diesel.util.addLoad = function(file){
 
 			snd.addEventListener("loadeddata", diesel.preloadError);
 			snd.addEventListener("onerror", diesel.preloadError);
-			snd.src=game.settings.dataDirectory+file.sound;
+			snd.src=diesel.game.dataDirectory+file.sound;
 		}
 	}
 	if(file.sprite){
