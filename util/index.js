@@ -78,6 +78,10 @@ diesel.util.createContext= function(canvas){
 }
 
 diesel.util.registerKey= function(keyName, keyCode){
+	if(diesel.data.keyNames[keyName] && diesel.data.keyNames[keyName] != keyCode){
+		keyCode = diesel.data.keyNames[keyName];
+	}
+
 	diesel.game.keys[keyName] = keyCode;
 	diesel.game.keysDown[keyName] = false;
 }

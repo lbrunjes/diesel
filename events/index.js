@@ -15,6 +15,10 @@ diesel.events.raiseEvent=function(eventName){
 		event.eventType = eventName;
 	}
 	
+	if( diesel.debug ){
+		console.log("raising event", eventName);
+	}
+	
 	event.eventName = eventName;
 	event.args = [];
 	//loop through arguements and 
