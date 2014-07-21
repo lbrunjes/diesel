@@ -4,7 +4,16 @@
 ///
 
 diesel.mixin.addMixin = function(targetObject, mixin){
-	
+	if(diesel.debug){
+		console.log("adding", mixin, "to", targetObject);
+
+	}
+
+	if(!mixin){
+		return;
+	}
+
+
 	var reservedVars = [
 		"prototype",
 		"overrideExisting",
