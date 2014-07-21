@@ -84,7 +84,7 @@ diesel.proto.objectBase =  function(){
 
 	};
 
-	this.move=function(ticks, angle, speed){
+	this.move=function(ticks, angle, force){
 		this.x -= Math.sin(angle) * ticks *force;
 		this.y -= Math.cos(angle) * ticks *force;	
 	};
