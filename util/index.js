@@ -85,3 +85,27 @@ diesel.util.registerKey= function(keyName, keyCode){
 	diesel.game.keys[keyName] = keyCode;
 	diesel.game.keysDown[keyName] = false;
 }
+
+diesel.util.shuffle = function(array){
+	if(!array){
+		return [];
+	}
+	var temp, j;
+	for(var i = array.length -1; i >0 ;i--){
+		j= Math.floor(i * Math.random());
+		temp = array[j];
+		array[j] = array[i];
+		array[i] = temp;
+	}
+
+	return array;
+
+}
+
+diesel.util.degrees = function(radians){
+	return radians * (180/Math.PI);
+}
+
+diesel.util.radians = function(degrees){
+	return degrees*(Math.PI/180);
+}
