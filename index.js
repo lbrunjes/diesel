@@ -1,6 +1,6 @@
 //the base diesel object must be laoded before we can load items
 var diesel = function(){
-	this.version=0.5;
+	this.version="0.7";
 
 	//setup slots to store components;
 	this.data ={};
@@ -16,11 +16,13 @@ var diesel = function(){
 	this.mouseX;
 	this.mouseY;
 	
+	this.fpsLimit  =30;
+	this.debug =false;
 	this.pauseOnBlur = true;
 	this.shouldLoop =true;
 	this.loopFn =false;
 
-	this.fpsLimit  =30;
+	
 	this.lastFrameTime = 1;
 	this.frameCount =0;
 
@@ -39,7 +41,7 @@ var diesel = function(){
 
 	this.nextFrame=false;
 
-	//engine functions
+	//engine functions that dont require full engine or the dom to be loaded.
 	this.init = function(){
 		//ensure the browser meets our basic requirements
 		this.setCompatability();
@@ -52,11 +54,14 @@ var diesel = function(){
 
 	//start should not be called until the dom is loaded.
 	this.start = function(game){
-		console.log("Diesel, starting");
+		console.log("Diesel, starting v=", this version);
 
 		diesel.timeStarted = new Date();
 		diesel.lastFrameEnd = new Date();
 		diesel.lastFrameStart = new Date();
+
+		//read url frangments
+		diesel.util.url.read();
 
 		diesel.container = document.getElementsByTagName("body")[0];
 		diesel.events.raiseEvent("startup");

@@ -101,11 +101,3 @@ diesel.util.shuffle = function(array){
 	return array;
 
 }
-
-diesel.util.degrees = function(radians){
-	return radians * (180/Math.PI);
-}
-
-diesel.util.radians = function(degrees){
-	return degrees*(Math.PI/180);
-}
