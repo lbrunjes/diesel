@@ -54,7 +54,7 @@ var diesel = function(){
 
 	//start should not be called until the dom is loaded.
 	this.start = function(game){
-		console.log("Diesel, starting v=", this version);
+		console.log("Diesel, starting v=", this.version);
 
 		diesel.timeStarted = new Date();
 		diesel.lastFrameEnd = new Date();

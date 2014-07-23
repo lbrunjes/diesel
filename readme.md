@@ -1,5 +1,6 @@
+ 
  diesel.js
- =========
+ ---------
 
  Diesel is a simple event based game engine. Basically, it emits events and wires them into your game object.
 

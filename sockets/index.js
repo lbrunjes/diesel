@@ -9,7 +9,7 @@ diesel.sockets ={};
 
 diesel.sockets.base = function(url, protocols){
 
-	this.socket = new WebSocket(url, protocol);
+	this.socket = new WebSocket(url, protocols);
 	
 	this.init = function(){
 		this.socket.onerror = this.onerror;
