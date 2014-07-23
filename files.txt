@@ -14,3 +14,4 @@ proto/unit.js
 sprites/index.js
 util/index.js
 util/load.js
+sockets/index.js

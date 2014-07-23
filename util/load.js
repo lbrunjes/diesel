@@ -10,11 +10,11 @@ diesel.util.loadSuccess = function(){
 diesel.util.loadError = function(evt){
 	console.log("Diesel, ERROR, loading an item.",
 			"this will likely cause errors later", evt);
-		diesel.loading--;
-		if(diesel.loading<=0){
-			diesel.start();
-		}
+	diesel.loading--;
+	if(diesel.loading<=0){
+		diesel.start();
 	}
+
 };
 
 diesel.util.addLoad = function(file){
