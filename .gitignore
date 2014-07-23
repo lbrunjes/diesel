@@ -1,1 +1,3 @@
 #there really shouldnt be anything in there yet
+diesel*.js
+tests*.js

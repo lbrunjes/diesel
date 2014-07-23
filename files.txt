@@ -6,6 +6,7 @@ events/mousemove.js
 events/storage.js
 events/windowblur.js
 events/windowkey.js
+math/index.js
 mixin/index.js
 proto/base.js
 proto/screen.js
