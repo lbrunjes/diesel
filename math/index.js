@@ -4,7 +4,7 @@
 ///
 
 diesel.math.clamp = function(val, min, max){
-	return Math.Min(Math.Max(val,min), max);
+	return Math.min(Math.max(val,min), max);
 }
 
 
