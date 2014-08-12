@@ -33,7 +33,7 @@ diesel.sockets.base = function(url, protocols){
 
 	this.onerror = function(data){
 		if(diesel.debug){
-			console.log("error:", data);
+			console.log("network error:", data);
 		}
 
 		//TODO

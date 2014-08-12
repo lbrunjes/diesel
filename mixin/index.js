@@ -3,7 +3,7 @@
 // diesel.mixin
 ///
 
-diesel.mixin.addMixin = function(targetObject, mixin){
+diesel.mixin.addMixin = function(targetObject, mixin, overide){
 	if(diesel.debug){
 		console.log("adding", mixin, "to", targetObject);
 
@@ -18,7 +18,7 @@ diesel.mixin.addMixin = function(targetObject, mixin){
 		"prototype",
 		"overrideExisting",
 	], 
-	shouldOverride = mixin.shouldOverride||false;
+	shouldOverride = mixin.shouldOverride||overide ||false;
 
 	//add the mixin vars to the object.
 	for(attr in mixin){
