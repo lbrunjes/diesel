@@ -16,3 +16,6 @@ diesel.math.radians = function(degrees){
 	return degrees*(Math.PI/180);
 }
 
+diesel.math.lerp =function(a,b,c){
+	return((b-a)*c)+a;
+}
