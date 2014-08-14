@@ -1,0 +1,14 @@
+todo:
+
+
+
+write tests/test engine
+
+html5 shim for canvas
+
+write better readme
+
+test socket
+work on websockets shim.
+
+build script work
