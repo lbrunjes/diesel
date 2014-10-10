@@ -13,6 +13,15 @@ diesel.util.timeBetweenFrames= function(){
 
 };
 
+
+diesel.util.getLocalCoords = function(x,y){
+	var rect = diesel.container.getBoundingClientRect();
+	return {
+	"x":x - rect.left - diesel.container.scrollLeft + window.pageXOffset,
+	"y":y - rect.top - diesel.container.scrollLeft + window.pageYOffset
+	};
+}
+
 diesel.util.fps =function(){
 	if(diesel.lastFrameTime>0){
 		return 1000/diesel.lastFrameTime;

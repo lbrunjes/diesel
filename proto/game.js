@@ -37,11 +37,11 @@ diesel.proto.game =  function(){
 			game.ticks++;
 			game.screens[game.activeScreen].update(event.args[0]);
 		},
-		"click":function(evt){
+		"click":function(evt,x,y){
 			if(game.screens[game.activeScreen] &&
 					game.screens[game.activeScreen].click){
 
-				game.screens[game.activeScreen].click(evt);
+				game.screens[game.activeScreen].click(evt,x,y);
 			}
 			
 		},

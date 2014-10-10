@@ -15,7 +15,7 @@ for test in `ls tests/*.js`; do
 	cat $test >> tests-$VERSION.js
 	echo "added test $test"
 done
-echo "  alert('passed:'+passed+'\nfailed: '+failed)">>tests=$VERSION.js
+echo "  alert('passed:'+passed+'\nfailed: '+failed)">>tests-$VERSION.js
 
 echo "Finished: "$(date +%c)
 

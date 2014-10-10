@@ -20,14 +20,17 @@ diesel.proto.screen = function(){
 	*/
 	
 	//called when the object is clicked
-	this.click=function(evt){
+	this.click=function(evt,x,y){
+		var _x = x||diesel.mouseX,
+		_y = y||diesel.mouseY;
+
 		for(i in this.clickZones){
-			if(this.clickZones[i].x < diesel.mouseX 
-				&& this.clickZones[i].x + this.clickZones[i].w > diesel.mouseX 
-				&& this.clickZones[i].y < diesel.mouseY
-				&& this.clickZones[i].y + this.clickZones[i].h > diesel.mouseY){
+			if(this.clickZones[i].x < _x
+				&& this.clickZones[i].x + this.clickZones[i].w > _x 
+				&& this.clickZones[i].y < _y
+				&& this.clickZones[i].y + this.clickZones[i].h > _y){
 					
-					this.clickZones[i].click();
+					this.clickZones[i].click(evt, _x,_y);
 				}
 			}
 	};

@@ -1,11 +1,10 @@
 
 //set the engine x vars
 diesel.events.mousemove= function(evt){
-	var rect = diesel.container.getBoundingClientRect();
+	
+	var coords = diesel.util.getLocalCoords(evt.pageX, evt.pageY);
 
-	//TODO Scrolling can still cause issues.
-	diesel.mouseX = evt.pageX - rect.left - diesel.container.scrollLeft + window.pageXOffset;
-
-	diesel.mouseY = evt.pageY - rect.top - diesel.container.scrollTop +window.pageYOffset;
+	diesel.mouseX = coords.x
+	diesel.mouseY = coords.y;
 	
 };

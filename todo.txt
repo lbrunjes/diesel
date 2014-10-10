@@ -12,3 +12,11 @@ test socket
 work on websockets shim.
 
 build script work
+
+touch support
+
+mouse x/y to support scrolling.
+
+support pixel scaling for retina displays
+
+add html form support(?)
