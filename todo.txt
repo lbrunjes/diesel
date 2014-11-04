@@ -20,3 +20,4 @@ mouse x/y to support scrolling.
 support pixel scaling for retina displays
 
 add html form support(?)
+ie support

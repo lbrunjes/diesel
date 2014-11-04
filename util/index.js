@@ -15,6 +15,7 @@ diesel.util.timeBetweenFrames= function(){
 
 
 diesel.util.getLocalCoords = function(x,y){
+	//TODO fix for scrolling/nesting
 	var rect = diesel.container.getBoundingClientRect();
 	return {
 	"x":x - rect.left - diesel.container.scrollLeft + window.pageXOffset,
@@ -47,8 +48,9 @@ diesel.util.ajax = function(url){
 	}
 };
 
-diesel.util.createContext= function(canvas){
-	canvas_el = document.getElementById(canvas)
+diesel.util.createContext= function(canvas ,value){
+	var canvas_el = document.getElementById(canvas),
+	ctx = null;
 				
 	//create it if it does not exist
 	if(!canvas_el){
@@ -56,12 +58,12 @@ diesel.util.createContext= function(canvas){
 		canvas_el.id =canvas;
 		diesel.container.appendChild(canvas_el);
 	}
-	if(game.context[canvas] !== "3d" && game.context[canvas] !== "3D"){
-		game.context[canvas] = canvas_el.getContext("2d");
+	if( value !== "3d" && value !== "3D"){
+		ctx = canvas_el.getContext("2d");
 	}	
 	else{
 		try{
-			game.context[canvas] = canvas_el.getContext("webgl");
+			ctx = canvas_el.getContext("webgl");
 		}
 		catch(e){
 			console.log("DIESEL, ERROR initializing 3d canvas"+e);
@@ -69,20 +71,25 @@ diesel.util.createContext= function(canvas){
 		}
 	}
 	//TODO preserve aspect ratio
-	canvas_el.width = game.width;
-	canvas_el.height = game.height;
+	
+	canvas_el.width = diesel.game.width;
+	canvas_el.height = diesel.game.height;
 
-	if(!game.font){
+	if(!diesel.game.font){
 		console.log("Diesel, Warning, No game.font, using defaults");
-		game.font = diesel.font;
+		diesel.game.font = diesel.font;
 	}
-	if(!game.fontSize){
+	if(!diesel.game.fontSize){
 		console.log("Diesel, Warning, No game.fontSize, using defaults");
-		game.fontSize=diesel.fontSize;
+		diesel.game.fontSize=diesel.fontSize;
 	}
-
 	//debug data to show init;
-	game.context[canvas].font = game.fontSize+"px "+game.font ;
+	ctx.font = diesel.game.fontSize+"px "+diesel.game.font ;
+	
+
+	
+
+	return ctx;
 				
 }
 

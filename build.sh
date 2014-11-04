@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="0.7"
+VERSION="0.7.1"
 echo "building diesel from files.txt"
 echo "// Diesel built at "$(date +%c) > diesel-$VERSION.js
 

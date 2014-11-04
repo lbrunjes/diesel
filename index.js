@@ -1,6 +1,6 @@
 //the base diesel object must be laoded before we can load items
 var diesel = function(){
-	this.version="0.7";
+	this.version="0.7.1";
 
 	//setup slots to store components;
 	this.data ={};
@@ -54,7 +54,7 @@ var diesel = function(){
 
 	//start should not be called until the dom is loaded.
 	this.start = function(game){
-		console.log("Diesel, starting v=", this.version);
+		console.log("Diesel, starting v"+this.version);
 
 		diesel.timeStarted = new Date();
 		diesel.lastFrameEnd = new Date();
@@ -64,7 +64,7 @@ var diesel = function(){
 		diesel.util.url.read();
 
 		diesel.container = document.getElementsByTagName("body")[0];
-		diesel.events.raiseEvent("startup");
+	
 		
 		//load vars into the diesel object from core plugins
 
@@ -116,7 +116,7 @@ var diesel = function(){
 			}
 			else{
 				for( var canvas in game.context){
-					diesel.util.createContext(canvas);
+					game.context[canvas] = diesel.util.createContext(canvas, game.context[canvas]);
 				};
 			}
 
@@ -132,7 +132,8 @@ var diesel = function(){
 				diesel.events.bindEvents(game.events);
 			}
 
-			
+			diesel.events.raiseEvent("startup");
+
 			diesel.loop();
 
 		}

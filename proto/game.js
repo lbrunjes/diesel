@@ -31,41 +31,41 @@ diesel.proto.game =  function(){
 	};
 	this.events={
 		"draw":function(event){
-			game.screens[game.activeScreen].draw(event.args[0]);
+			diesel.game.screens[diesel.game.activeScreen].draw(event.args[0]);
 		},
 		"update":function(event){
-			game.ticks++;
-			game.screens[game.activeScreen].update(event.args[0]);
+			diesel.game.ticks++;
+			diesel.game.screens[diesel.game.activeScreen].update(event.args[0]);
 		},
 		"click":function(evt,x,y){
-			if(game.screens[game.activeScreen] &&
-					game.screens[game.activeScreen].click){
+			if(diesel.game.screens[diesel.game.activeScreen] &&
+					diesel.game.screens[diesel.game.activeScreen].click){
 
-				game.screens[game.activeScreen].click(evt,x,y);
+				diesel.game.screens[diesel.game.activeScreen].click(evt,x,y);
 			}
 			
 		},
 		"windowkeydown": function(event){
-			for(keyname in game.keys){
-				if(event.keyCode == game.keys[keyname]){
-					game.keysDown[keyname] =true;
+			for(keyname in diesel.game.keys){
+				if(event.keyCode == diesel.game.keys[keyname]){
+					diesel.game.keysDown[keyname] =true;
 					event.preventDefault();
 				}
 			}
-			if(game.screens[game.activeScreen].keydown){
-				game.screens[game.activeScreen].keydown(event);
+			if(diesel.game.screens[diesel.game.activeScreen].keydown){
+				diesel.game.screens[diesel.game.activeScreen].keydown(event);
 			}
 				
 		},
 		"windowkeyup":function(event){
-			for(keyname in game.keys){
-				if(event.keyCode == game.keys[keyname]){
-					game.keysDown[keyname] =false;
+			for(keyname in diesel.game.keys){
+				if(event.keyCode == diesel.game.keys[keyname]){
+					diesel.game.keysDown[keyname] =false;
 					event.preventDefault();
 				}
 			}	
-			if(game.screens[game.activeScreen].keyup){
-				game.screens[game.activeScreen].keyup(event);
+			if(diesel.game.screens[diesel.game.activeScreen].keyup){
+				diesel.game.screens[diesel.game.activeScreen].keyup(event);
 			}
 		},
 		"screenChange":function(event){
@@ -74,23 +74,23 @@ diesel.proto.game =  function(){
 				transition = event.args[2]|| false;
 			console.log("screen changed",from, to, transition);
 
-			game.screens[from].close();
+			diesel.game.screens[from].close();
 			if(transition){
-				game.screens[transition].reset(from, to);
-				game.screens[transition].open();
-				game.activeScreen = transition;
+				diesel.game.screens[transition].reset(from, to);
+				diesel.game.screens[transition].open();
+				diesel.game.activeScreen = transition;
 			}
 			else{
-				game.screens[to].reset();
-				game.screens[to].open();
-				game.activeScreen = to;
+				diesel.game.screens[to].reset();
+				diesel.game.screens[to].open();
+				diesel.game.activeScreen = to;
 			}
 		
 		},
 		"startup":function(evt){
 
-			if(game.startup){
-				game.startup();
+			if(diesel.game.startup){
+				diesel.game.startup();
 				console.log("diesel, starting up the game");
 			}
 			else{
