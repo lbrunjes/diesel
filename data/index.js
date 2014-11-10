@@ -59,3 +59,10 @@ diesel.data.getKeyName = function(keyCode){
 	// hope this  is a letter key:)
 	return String.fromCharCode(keyCode);
 };
+
+diesel.data.directions={
+	up: Math.PI,
+	down: 0,
+	left: Math.PI/2,
+	right:Math.PI/2*3
+};
