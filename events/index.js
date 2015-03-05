@@ -46,7 +46,7 @@ diesel.events.bindEvents = function(eventObject){
 	}
 };
 
-diesel.events.bindEvent =function(eventName, functionRef){
+diesel.events.bindEvent =function(eventName, functionRef, domElement){
 
 	if(!eventName && typeOf(functionRef) !="function"){
 		console.log("cannot bind ", event, functionRef)
@@ -54,7 +54,7 @@ diesel.events.bindEvent =function(eventName, functionRef){
 	}
 
 	var fallback = !window.addEventListener;
-	var container = diesel.container;
+	var container = domElement || diesel.container|| document;
 	if(eventName.indexOf("window") === 0){
 		//remove the window at the start
 		container  = window;
