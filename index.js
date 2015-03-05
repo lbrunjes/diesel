@@ -176,6 +176,8 @@ var diesel = function(){
 			console.log("Diesel, No Local Storage. Faking...");
 			window.localStorage = {};
 		}
+
+		//events for IE
 	};
 
 	this.init();

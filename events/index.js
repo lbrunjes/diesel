@@ -42,19 +42,29 @@ diesel.events.bindEvents = function(eventObject){
 	// events prefixed with window will bind to the window in all cases
 	
 	for(event in eventObject){
-		if(event && typeof(eventObject[event]) == "function"){
-			if(event.indexOf("window") === 0){
-				//remove the window at the start
-				window.addEventListener(event.substring(6), 
-					eventObject[event]);
-			}
-			else{
-				
-				diesel.container.addEventListener(event, 
-					eventObject[event]);
-
-
-			}
-		}
+		diesel.events.bindEvent(event,eventObject[event]);	
 	}
 };
+
+diesel.events.bindEvent =function(eventName, functionRef){
+
+	if(!eventName && typeOf(functionRef) !="function"){
+		console.log("cannot bind ", event, functionRef)
+		return;
+	}
+
+	var fallback = !window.addEventListener;
+	var container = diesel.container;
+	if(eventName.indexOf("window") === 0){
+		//remove the window at the start
+		container  = window;
+		eventName = event.substring(6)
+	}
+	
+	if(fallback){
+		container.attachEvent("on"+eventName, functionRef);
+	}
+	else{
+		container.addEventListener(eventName, functionRef, false);
+	}
+}
